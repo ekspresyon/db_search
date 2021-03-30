@@ -27,10 +27,10 @@
 		public function find( $args, $args_assoc ) {
             $srchSrting = $args[0];
 			global $wpdb;
-			// $blogs = $wpdb->get_results( 'SELECT * FROM wp_blogs' );
-			// if ( ! $blogs ) {
-			// 	\WP_CLI::error( 'No blogs found' );
-			// }
+			$blogs = $wpdb->get_results( 'SELECT * FROM wp_blogs' );
+			if ( ! $blogs ) {
+				\WP_CLI::error( 'No blogs found' );
+			}
 
 			// Setup a table to return the data.
 			$output = new \cli\Table();
@@ -44,8 +44,8 @@
 				)
 			);
 
-			// foreach ( $blogs as $blog ) {
-			// 	$site_url = 'https://' . $blog->domain . $blog->path;
+			foreach ( $blogs as $blog ) {
+				$site_url = 'https://' . $blog->domain . $blog->path;
 
 				// Get post IDs where the post_content contains the target string.
 				$query  = sprintf( "SELECT ID, post_title, guid FROM wp_posts WHERE post_content LIKE '%%".$srchSrting."%%';", $blog->blog_id );
@@ -70,7 +70,7 @@
 
 				}
 
-			// }
+			}
 
 			$output->display();
 		}
