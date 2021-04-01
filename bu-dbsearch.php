@@ -26,9 +26,6 @@
 		 */
 		public function find( $args, $args_assoc ) {
             $srchSrting = $args[0];
-            $fd = fopen('results.csv','w');
-            $headers = array('post_id','post_title','post_url');
-            $tablerows = [];
 			global $wpdb;
 			$blogs = $wpdb->get_results( 'SELECT * FROM wp_blogs' );
 			if ( ! $blogs ) {
@@ -46,8 +43,6 @@
 					'post_url'
 				)
 			);
-
-			
 
 			foreach ( $blogs as $blog ) {
 				$site_url = 'https://' . $blog->domain . $blog->path;
@@ -68,20 +63,16 @@
 						$site_url,
 						$hit_id,
 						$hit_title,
-						$hit_url
+						$hit_url,
 					);
 
 					$output->addRow( $row );
-					$tablerows[] = $row; 
 
 				}
 
 			}
 
 			$output->display();
-			WP_CLI::success( implode(',',$tablerows) );
-			WP_CLI\Utils\write_csv( $fd, $tablerows, $headers);
-			
 		}
     }
 
