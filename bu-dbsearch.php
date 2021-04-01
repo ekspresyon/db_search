@@ -48,7 +48,7 @@
 				$site_url = 'https://' . $blog->domain . $blog->path;
 
 				// Get post IDs where the post_content contains the target string.
-				$query  = sprintf( "SELECT ID, post_title, guid FROM wp_%s_posts WHERE post_content LIKE '%%".$srchSrting."%%';", $blog->blog_id );
+				$query  = sprintf( "SELECT ID, post_title, guid FROM wp_%s_posts WHERE post_status='publish' AND post_content LIKE '%%".$srchSrting."%%';", $blog->blog_id );
 				$result = $wpdb->get_results( $query );
 
 				foreach ($result as $hit) {
